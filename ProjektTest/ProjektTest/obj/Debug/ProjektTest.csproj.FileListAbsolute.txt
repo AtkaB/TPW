@@ -1,0 +1,7 @@
+C:\Users\kaszt\Source\Repos\TPW\ProjektTest\ProjektTest\bin\Debug\ProjektTest.exe.config
+C:\Users\kaszt\Source\Repos\TPW\ProjektTest\ProjektTest\bin\Debug\ProjektTest.exe
+C:\Users\kaszt\Source\Repos\TPW\ProjektTest\ProjektTest\bin\Debug\ProjektTest.pdb
+C:\Users\kaszt\Source\Repos\TPW\ProjektTest\ProjektTest\obj\Debug\ProjektTest.csproj.AssemblyReference.cache
+C:\Users\kaszt\Source\Repos\TPW\ProjektTest\ProjektTest\obj\Debug\ProjektTest.csproj.CoreCompileInputs.cache
+C:\Users\kaszt\Source\Repos\TPW\ProjektTest\ProjektTest\obj\Debug\ProjektTest.exe
+C:\Users\kaszt\Source\Repos\TPW\ProjektTest\ProjektTest\obj\Debug\ProjektTest.pdb

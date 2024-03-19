@@ -1,0 +1,37 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\kaszt\\source\\repos\\TPW\\ProjektTest\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{09C746F4-ECB5-46C3-A5FC-A2AF2D2A7054}|ProjektTest\\ProjektTest.csproj|c:\\users\\kaszt\\source\\repos\\tpw\\projekttest\\projekttest\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{09C746F4-ECB5-46C3-A5FC-A2AF2D2A7054}|ProjektTest\\ProjektTest.csproj|solutionrelative:projekttest\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\kaszt\\source\\repos\\TPW\\ProjektTest\\ProjektTest\\Program.cs",
+              "RelativeDocumentMoniker": "ProjektTest\\Program.cs",
+              "ToolTip": "C:\\Users\\kaszt\\source\\repos\\TPW\\ProjektTest\\ProjektTest\\Program.cs",
+              "RelativeToolTip": "ProjektTest\\Program.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAVAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-19T21:01:05.526Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

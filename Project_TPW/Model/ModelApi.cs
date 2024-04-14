@@ -14,7 +14,7 @@ namespace Model
         public int BoardWidth { get; set; }
         public int BoardHeight { get; set; }
         public abstract void AddBalls(int number);
-
+        public abstract void updatePosition();
         public static ModelApi Instance()
         {
             return new Model();
@@ -22,8 +22,8 @@ namespace Model
 
         private class Model : ModelApi
         {
-            public Model() 
-            {   
+            public Model()
+            {
                 balls = new List<BallModel>();
                 logicApi = LogicApi.Instance();
                 BoardWidth = logicApi.Board.Width;
@@ -34,9 +34,18 @@ namespace Model
             {
                 for (int i = 0; i < number; i++)
                 {
-                    Ball ball = new Ball(10, 10, 10);
+                    Ball ball = new Ball(490 + i * 10, 500, 10);
                     logicApi.AddBall(ball);
                     balls.Add(new BallModel(ball));
+                }
+            }
+
+            public override void updatePosition()
+            {
+                logicApi.updatePosition();
+                foreach (BallModel ball in balls)
+                {
+                    ball.Update();
                 }
             }
         }

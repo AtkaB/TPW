@@ -1,59 +1,49 @@
-﻿using Logic;
-using System.ComponentModel;
-using System.Xml.Linq;
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace Model
 {
     public class BallModel : INotifyPropertyChanged
     {
-        private readonly Ball Ball;
         public String Color { get; set; }
-        private float x;
-        public float X
+        private double x;
+        public double X
         {
             get { return x; }
             set
             {
                 x = value;
-                OnPropertyChanged("X");
+                RaisePropertyChanged();
             }
         }
-        private float y;
-        public float Y
+        private double y;
+        public double Y
         {
             get { return y; }
             set
             {
                 y = value;
-                OnPropertyChanged("Y");
+                RaisePropertyChanged();
             }
         }
-        public float Radious
+        public double Radious
         {
-            get { return Ball.Radius; }
+            get { return 50; }
         }
 
-        public BallModel(Ball ball, string color = "White")
+
+        public BallModel(double x, double y, string color = "White")
         {
-            Ball = ball;
             Color = color;
+            X = x;
+            Y = y;
         }
-
+        
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private void OnPropertyChanged(string propertyName)
+        private void RaisePropertyChanged([CallerMemberName] string propertyName = "")
         {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
-        public void Update()
-        {
-            X = Ball.X;
-            Y = Ball.Y;
-            System.Diagnostics.Debug.WriteLine("X: {0}, Y: {1}", X, Y);
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

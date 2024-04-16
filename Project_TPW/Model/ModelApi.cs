@@ -1,20 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 using Logic;
 
 namespace Model
 {
     public abstract class ModelApi
     {
-        public LogicApi logicApi;
-        public List<BallModel> balls;
-        public int BoardWidth { get; set; }
-        public int BoardHeight { get; set; }
+        public LogicApi LogicApi;
+        public ObservableCollection<BallModel> Balls;
         public abstract void AddBalls(int number);
-        public abstract void updatePosition();
         public static ModelApi Instance()
         {
             return new Model();
@@ -22,30 +15,32 @@ namespace Model
 
         private class Model : ModelApi
         {
-            public Model()
-            {
-                balls = new List<BallModel>();
-                logicApi = LogicApi.Instance();
-                BoardWidth = logicApi.Board.Width;
-                BoardHeight = logicApi.Board.Height;
+            public Model() 
+            {   
+                Balls = new ObservableCollection<BallModel>();
+                LogicApi = LogicApi.Instance();
+                LogicApi.LogicApiEvent += (sender, args) => LogicApiEventHandler();
             }
 
             public override void AddBalls(int number)
             {
+                LogicApi.CreateBalls(number);
                 for (int i = 0; i < number; i++)
                 {
-                    Ball ball = new Ball(490 + i * 10, 500, 10);
-                    logicApi.AddBall(ball);
-                    balls.Add(new BallModel(ball));
+                    BallModel model = new BallModel(LogicApi.GetX(i), LogicApi.GetY(i));
+                    Balls.Add(model);
                 }
             }
 
-            public override void updatePosition()
+            private void LogicApiEventHandler()
             {
-                logicApi.updatePosition();
-                foreach (BallModel ball in balls)
+                for (int i = 0; i < LogicApi.GetNumberOfBalls(); i++)
                 {
-                    ball.Update();
+                    if (LogicApi.GetNumberOfBalls() == Balls.Count)
+                    {
+                        Balls[i].X = LogicApi.GetX(i);
+                        Balls[i].Y = LogicApi.GetY(i);
+                    }
                 }
             }
         }

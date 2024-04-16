@@ -1,4 +1,5 @@
 using Logic;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace LogicTest
 {
@@ -29,8 +30,8 @@ namespace LogicTest
             LogicApi logicApi = LogicApi.Instance();
             Assert.IsNotNull(logicApi);
             logicApi.CreateBalls(1);
-            float prev_x = logicApi.GetX(0);
-            float prev_y = logicApi.GetY(0);
+            float prev_x = (float)logicApi.GetX(0);
+            float prev_y = (float)logicApi.GetY(0);
             logicApi.LogicApiEvent += (sender, args) =>
             {
                 Assert.AreNotEqual(prev_y, logicApi.GetY(0));

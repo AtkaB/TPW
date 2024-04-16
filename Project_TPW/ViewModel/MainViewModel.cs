@@ -1,32 +1,26 @@
 ﻿using Model;
-using System.Timers;
+using System.Collections.ObjectModel;
+using System.Windows.Input;
 
 namespace ViewModel
 {
     public class MainViewModel
     {
-        ModelApi Api { get; set; }
-        public List<BallModel> Balls { get; set; }
-
-        private static System.Timers.Timer aTimer;
+        private ModelApi Api { get; set; }
+        public ObservableCollection<BallModel> Balls { get; }
+        public int NumberOfBalls { get; set; }
+        public ICommand AddCommand { get; set; }
 
         public MainViewModel()
         {
             Api = ModelApi.Instance();
-            Balls = Api.balls;
-            Api.AddBalls(3);
-
-            aTimer = new System.Timers.Timer();
-            aTimer.Interval = 1000 / 60;
-            aTimer.Elapsed += OnUpdate;
-            aTimer.AutoReset = true;
-            aTimer.Enabled = true;
+            Balls = Api.Balls;
+            AddCommand = new RelayCommand(AddBalls);
         }
 
-        private void OnUpdate(Object source, System.Timers.ElapsedEventArgs e)
+        public void AddBalls() 
         {
-            System.Diagnostics.Debug.WriteLine("The Elapsed event was raised at {0}", e.SignalTime);
-            Api.updatePosition();
+            Api.AddBalls(NumberOfBalls);
         }
     }
 }

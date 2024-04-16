@@ -6,15 +6,15 @@
         xmlns:local="clr-namespace:View"
         xmlns:vm="clr-namespace:ViewModel;assembly=ViewModel"
         mc:Ignorable="d"
-        Title="Balls" Height="500" Width="500">
+        Title="Balls" Height="650" Width="550">
     <Window.DataContext>
         <vm:MainViewModel/>
     </Window.DataContext>
-    <Grid>
+    <Grid Background="#1E242B">
         <ItemsControl ItemsSource="{Binding Balls}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <Canvas Background="Black" Width="500" Height="500"/>
+                    <Canvas Background="#00796B" Width="500" Height="500" Margin="0, 0, 0, 80"/>
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemContainerStyle>
@@ -30,5 +30,7 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
+        <TextBox Text="{Binding NumberOfBalls}" Margin="0, 480, 0, 0" Width="200" Height="20"/>
+        <Button Width="100" Height="20" Margin="0, 550, 0, 0" Command="{Binding AddCommand}">Dodaj</Button>
     </Grid>
 </Window>

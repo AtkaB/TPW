@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:View"
         xmlns:vm="clr-namespace:ViewModel;assembly=ViewModel"
         mc:Ignorable="d"
-        Title="Balls" Height="650" Width="550">
+        Title="Balls" Height="650" Width="550" Background="CadetBlue">
     <Window.DataContext>
         <vm:MainViewModel/>
     </Window.DataContext>
@@ -14,7 +14,7 @@
         <ItemsControl ItemsSource="{Binding Balls}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <Canvas Background="Black" Width="500" Height="500" Margin="0, 0, 0, 80"/>
+                    <Canvas Background="DarkGreen" Width="500" Height="500" Margin="0, 0, 0, 80"/>
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemContainerStyle>

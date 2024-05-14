@@ -18,7 +18,7 @@ namespace Model
             public Model() 
             {   
                 Balls = new ObservableCollection<BallModel>();
-                LogicApi = LogicApi.Instance();
+                LogicApi = LogicApi.Instance(null);
                 LogicApi.LogicApiEvent += (sender, args) => LogicApiEventHandler();
             }
 

@@ -10,11 +10,11 @@
     <Window.DataContext>
         <vm:MainViewModel/>
     </Window.DataContext>
-    <Grid Background="#1E242B">
+    <Grid>
         <ItemsControl ItemsSource="{Binding Balls}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <Canvas Background="#00796B" Width="500" Height="500" Margin="0, 0, 0, 80"/>
+                    <Canvas Background="Black" Width="500" Height="500" Margin="0, 0, 0, 80"/>
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemContainerStyle>

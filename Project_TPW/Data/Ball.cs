@@ -1,42 +1,40 @@
 ﻿using System;
+using System.Numerics;
 
 namespace Data
 {
-    internal interface IBall
+    public interface IBall
     {
-        double X { get; set; }
-        double Y { get; set; }
-        double HorizontalMove { get; set; }
-        double VerticalMove { get; set;}
+        Vector2 Position { get; }
+        int MoveTime { get; }
         const int Radius = 50;
-        double Weight { get; }
-        void Move();
+        float Weight { get; }
+        Vector2 Speed { get; set; }
     }
 
     internal class Ball : IBall
     {
-        private double _x;
-        private double _y;
-        private double _horizontalMove;
-        private double _verticalMove;
-        private double _weight;
+        private int _moveTime;
+        private float _weight;
+        private Vector2 _speed;
+        private Vector2 _position;
 
-        public Ball(int x, int y, int weight)
+        public Ball(int x, int y, float weight)
         {
-            _x = x;
-            _y = y;
             _weight = weight;
             Random rnd = new Random();
-            HorizontalMove = rnd.NextDouble() * 20 - 10;
-            VerticalMove = rnd.NextDouble() * 20 - 10;
-            Task.Run(async () =>
+            Speed = new Vector2(x, y)
             {
-                while (true)
-                {
-                    Move();
-                    await Task.Delay(1000/60); //1/60 sekundy
-                }
-            });
+                X = (float)(rnd.NextDouble() * (0.75 - (-0.75)) + (-0.75)),
+                Y = (float)(rnd.NextDouble() * (0.75 - (-0.75)) + (-0.75))
+            };
+            Position = new Vector2(x, y)
+            {
+                X = x,
+                Y = y
+            };
+            MoveTime = 1000/60;
+            RunTask();
         }
 
         internal event EventHandler PositionChanged;
@@ -45,51 +43,46 @@ namespace Data
         {
             PositionChanged?.Invoke(this, EventArgs.Empty);
         }
-
-        public double X
+        
+        public int MoveTime
         {
-            get => _x;
-            set
+            get => _moveTime;
+            private set
             {
-                _x = value;
-                OnPositionChanged();
+                _moveTime = value;
             }
         }
-
-        public double Y
+        public Vector2 Speed
         {
-            get => _y;
+            get { return _speed; }
             set
             {
-                _y = value;
-                OnPositionChanged();
+                _speed = value;
             }
         }
-
-        public double HorizontalMove
-        {
-            get => _horizontalMove;
-            set
-            {
-                _horizontalMove = value;
-            }
+        public Vector2 Position 
+        { 
+            get => _position; 
+            private set { _position = value; }
         }
 
-        public double VerticalMove
-        {
-            get => _verticalMove;
-            set
-            {
-                _verticalMove = value;
-            }
-        }
-
-        public double Weight { get => _weight; }
+        public float Weight { get => _weight; }
 
         public void Move()
         {
-            X += HorizontalMove;
-            Y += VerticalMove;
+            Position += Speed * MoveTime;
+            OnPositionChanged();
+        }
+        private void RunTask()
+        {
+            Task.Run(async () =>
+            {
+                while (true)
+                {
+                    Move();
+                    await Task.Delay(MoveTime);
+                }
+            });
         }
     }
 }

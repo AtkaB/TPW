@@ -1,4 +1,5 @@
 ﻿using Data;
+using System.Numerics;
 
 namespace Logic
 {
@@ -9,16 +10,24 @@ namespace Logic
         public abstract double GetX(int number);
         public abstract double GetY(int number);
         public abstract event EventHandler LogicApiEvent;
-        public static LogicApi Instance()
+        public static LogicApi Instance(DataApi dataApi)
         {
-            return new Logic();
+            if (dataApi == null)
+            {
+                return new Logic(DataApi.Instance());
+            }
+            else
+            {
+                return new Logic(dataApi);
+            }
         }
         private class Logic : LogicApi
         {
             DataApi dataApi;
-            public Logic()
+            object _lock = new object();
+            public Logic(DataApi api)
             {
-                dataApi = DataApi.Instance();
+                dataApi = api;
                 dataApi.BallEvent += Ball_PositionChanged;
             }
             public override event EventHandler LogicApiEvent;
@@ -42,32 +51,71 @@ namespace Logic
 
             private void Ball_PositionChanged(object sender, EventArgs e)
             {
-                CheckColisionWithWalls();
-                LogicApiEvent?.Invoke(this, EventArgs.Empty);
+                IBall ball = (IBall)sender;
+                if (ball != null) {
+                    CheckCollisionWithBalls(ball);
+                    CheckCollisionWithWalls(ball);
+                    LogicApiEvent?.Invoke(this, EventArgs.Empty);
+                }
             }
 
-            private void CheckColisionWithWalls()
+            private void CheckCollisionWithWalls(IBall ball)
             {
-                for (int i = 0; i < dataApi.GetNumberOfBalls(); i++)
+                Vector2 newSpeed = new Vector2(ball.Speed.X, ball.Speed.Y);
+                if (ball.Position.X < 0)
                 {
-                    if (dataApi.GetX(i) < 0)
-                    {
-                        dataApi.SetHorizontalMove(i);
-                    }
-                    if (dataApi.GetY(i) < 0)
-                    {
-                        dataApi.SetVerticalMove(i);
-                    }
+                    newSpeed.X = ball.Speed.X * -1;
+                }
+                if (ball.Position.Y < 0)
+                {
+                    newSpeed.Y = ball.Speed.Y * -1;
+                }
 
-                    if (dataApi.GetX(i) + 50 > 500)
+                if (ball.Position.X + IBall.Radius > dataApi.Width)
+                {
+                    newSpeed.X = ball.Speed.X * -1;
+                }
+                if (ball.Position.Y + IBall.Radius > dataApi.Height)
+                {
+                    newSpeed.Y = ball.Speed.Y * -1;
+                }
+                ball.Speed = newSpeed;
+            }
+
+            private void CheckCollisionWithBalls(IBall ball)
+            {
+                lock(_lock)
+                {
+                    for (int i = 0; i < dataApi.GetNumberOfBalls(); i++)
                     {
-                        dataApi.SetHorizontalMove(i);
-                    }
-                    if (dataApi.GetY(i) + 50 > 500)
-                    {
-                        dataApi.SetVerticalMove(i);
+                        IBall secondBall = dataApi.GetBall(i);
+                        if (secondBall != ball)
+                        {
+                            double d = Vector2.Distance(ball.Position, secondBall.Position);
+                            if (d - (IBall.Radius) <= 0)
+                            {
+                                Vector2 firstSpeed = CountNewSpeed(ball, secondBall);
+                                Vector2 secondSpeed = CountNewSpeed(secondBall, ball);
+                                if (Vector2.Distance(ball.Position, secondBall.Position) > 
+                                    Vector2.Distance(ball.Position + firstSpeed * 1000/60, secondBall.Position + secondSpeed * 1000 / 60))
+                                {
+                                    return;
+                                }
+                                ball.Speed = firstSpeed;
+                                secondBall.Speed = secondSpeed;
+                            }
+                        }
                     }
                 }
+            }
+
+            private Vector2 CountNewSpeed(IBall ball, IBall secondBall) 
+            {
+                return ball.Speed -
+                       (2 * secondBall.Weight / (ball.Weight + secondBall.Weight) 
+                       * (Vector2.Dot(ball.Speed - secondBall.Speed, ball.Position - secondBall.Position)
+                       * (ball.Position - secondBall.Position))
+                       / (float)Math.Pow(Vector2.Distance(secondBall.Position, ball.Position), 2));
             }
         }
     }

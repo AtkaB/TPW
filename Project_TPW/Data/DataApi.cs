@@ -11,7 +11,8 @@
         public abstract IBall GetBall(int number);
         public abstract event EventHandler BallEvent;
 
-
+        //to wszystko pod trzeba przenieść
+        //czyli wszystko z data api usunąć z data? Cały ten plik? ZObaczymy
         public static DataApi Instance()
         {
             return new Data();

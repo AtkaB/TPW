@@ -3,6 +3,7 @@ using System.Numerics;
 
 namespace Data
 {
+       //to jest git bo same get i zmienne
     public interface IBall
     {
         Vector2 Position { get; }
@@ -14,12 +15,13 @@ namespace Data
 
     internal class Ball : IBall
     {
+        //tutaj same te zmienne a reszta do przeniesienia
         private int _moveTime;
         private float _weight;
         private Vector2 _speed;
         private Vector2 _position;
 
-        public Ball(int x, int y, float weight)
+        public Ball(int x, int y, float weight)         //to trzeba wyjebać
         {
             _weight = weight;
             Random rnd = new Random();
@@ -36,7 +38,7 @@ namespace Data
             MoveTime = 1000/60;
             RunTask();
         }
-
+        //to wszystko w dół też trzeba wyjebać
         internal event EventHandler PositionChanged;
 
         internal void OnPositionChanged()

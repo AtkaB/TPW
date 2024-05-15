@@ -1,8 +1,5 @@
 using Data;
 
-//tego chyba te¿ w takim razie nie potrzebujemy bo jak mamy testowaæ klasy abstrakcyjne
-//przeniesie siê do logictest i guess
-
 namespace DataTest
 {
     [TestClass]

@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using Logic;
+using System.Numerics;
 
 namespace Model
 {
@@ -15,8 +16,8 @@ namespace Model
 
         private class Model : ModelApi
         {
-            public Model() 
-            {   
+            public Model()
+            {
                 Balls = new ObservableCollection<BallModel>();
                 LogicApi = LogicApi.Instance(null);
                 LogicApi.LogicApiEvent += (sender, args) => LogicApiEventHandler();
@@ -27,7 +28,8 @@ namespace Model
                 LogicApi.CreateBalls(number);
                 for (int i = 0; i < number; i++)
                 {
-                    BallModel model = new BallModel(LogicApi.GetX(i), LogicApi.GetY(i));
+                    Vector2 position = LogicApi.GetPosition(i);
+                    BallModel model = new BallModel(position.X, position.Y);
                     Balls.Add(model);
                 }
             }
@@ -38,8 +40,9 @@ namespace Model
                 {
                     if (LogicApi.GetNumberOfBalls() == Balls.Count)
                     {
-                        Balls[i].X = LogicApi.GetX(i);
-                        Balls[i].Y = LogicApi.GetY(i);
+                        Vector2 position = LogicApi.GetPosition(i);
+                        Balls[i].X = position.X;
+                        Balls[i].Y = position.Y;
                     }
                 }
             }

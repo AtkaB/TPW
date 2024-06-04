@@ -20,12 +20,12 @@ namespace DataTest
             Assert.IsNotNull(api);
             api.CreateBalls(1);
             Assert.AreEqual(1, api.GetNumberOfBalls());
-            double prev_x = api.GetX(0);
-            double prev_y = api.GetX(0);
+            double prev_x = api.GetPosition(0).X;
+            double prev_y = api.GetPosition(0).Y;
             api.BallEvent += (sender, args) =>
             {
-                Assert.AreNotEqual(prev_x, api.GetX(0));
-                Assert.AreNotEqual(prev_y, api.GetY(0));
+                Assert.AreNotEqual(prev_x, api.GetPosition(0).X);
+                Assert.AreNotEqual(prev_y, api.GetPosition(0).X);
             };
         }
     }

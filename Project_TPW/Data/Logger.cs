@@ -1,6 +1,7 @@
 ﻿using System.Collections.Concurrent;
 using System.Text.Json;
 using System.Numerics;
+using System.Timers;
 
 namespace Data
 {
@@ -15,7 +16,6 @@ namespace Data
             public float SpeedVertical { get; }
             public string Date { get; }
 
-
             public BallToSerialize(Vector2 position, Vector2 speed, int id, string date)
             {
                 X = position.X;
@@ -28,10 +28,28 @@ namespace Data
         }
 
         ConcurrentQueue<BallToSerialize> _queue;
-        public Logger()
+        private readonly List<IBall> _balls;
+        private readonly System.Timers.Timer _timer;
+
+        public Logger(List<IBall> balls)
         {
             _queue = new ConcurrentQueue<BallToSerialize>();
+            _balls = balls;
+
+            _timer = new System.Timers.Timer(10000); // 10 seconds interval
+            _timer.Elapsed += TimerElapsed;
+            _timer.Start();
+
             WriteToFile();
+        }
+
+        private void TimerElapsed(object sender, ElapsedEventArgs e)
+        {
+            string date = DateTime.UtcNow.ToString("MM/dd/yyyy HH:mm:ss.fff");
+            foreach (var ball in _balls)
+            {
+                AddObjectToQueue(ball, date);
+            }
         }
 
         public void AddObjectToQueue(IBall obj, string date)

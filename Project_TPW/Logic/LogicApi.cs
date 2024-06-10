@@ -11,13 +11,15 @@ namespace Logic
         public override int Width { get; }
         public override int Height { get; }
         public override event EventHandler BallEvent;
+
         public Data()
         {
             Balls = new List<IBall>();
             Width = 500;
             Height = 500;
-            _logger = new Logger();
+            _logger = new Logger(Balls); // Pass the balls list to the logger
         }
+
         public override void CreateBalls(int number)
         {
             Random rnd = new Random();
@@ -29,6 +31,7 @@ namespace Logic
                 ball.PositionChanged += Ball_PositionChanged;
             }
         }
+
         public override int GetNumberOfBalls()
         {
             return Balls.Count;
@@ -39,13 +42,14 @@ namespace Logic
             if (sender != null)
             {
                 BallEvent?.Invoke(sender, EventArgs.Empty);
-                _logger.AddObjectToQueue((IBall)sender, DateTime.UtcNow.ToString("MM/dd/yyyy HH:mm:ss.fff"));
             }
         }
+
         public override Vector2 GetPosition(int number)
         {
             return Balls[number].Position;
         }
+
         public override IBall GetBall(int number)
         {
             return Balls[number];
